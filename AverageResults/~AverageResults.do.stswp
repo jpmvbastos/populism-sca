@@ -1,0 +1,17 @@
+* Import data
+import delimited "/Users/jpmvbastos/Documents/GitHub/populism-sca/AverageResults/avg_placebo.csv", case(preserve) clear 
+
+gen t = time+11
+
+tsset id t
+
+global predictors	 = "WGI1 WGI2 VDEM1 VDEM2 VDEM5 EFW"
+global pre_treatment = "VDEMy(2) VDEMy(4) VDEMy(6) VDEMy(8) VDEMy(10)"
+global treat_y       = "11"
+global x_axis		 = "1(1)21"
+
+
+
+synth VDEMy $predictors $pre_treatment, trunit(0) trperiod($treat_y)		 ///
+	  resultsperiod($x_axis)								 ///
+	  fig

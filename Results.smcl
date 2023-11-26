@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/jpmvbastos/Documents/GitHub/populism-sca/Results.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}25 Nov 2023, 19:44:38
+ {txt}opened on:  {res}26 Nov 2023, 13:40:36
 {txt}
 {com}. 
 . 
@@ -202,7 +202,7 @@ Data Setup successful
 {res}Estimating the treatment effects
 Estimating the possible placebo effects (one set for each of the 1 treatment periods)
 |{col 27}| Total: 27
-..........................| 7.00s elapsed. 
+..........................| 8.00s elapsed. 
 
 Conducting inference: 5 steps, and 27 placebo averages
 Step 1... Finished
@@ -227,7 +227,32 @@ Post-treatment results: Effects, p-values, standardized p-values
 {space 0}{space 0}{ralign 12:c10}{space 1}{c |}{space 1}{ralign 9:{res:{sf: -10.2749}}}{space 1}{space 1}{ralign 9:{res:{sf: .1111111}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
 {space 0}{space 0}{ralign 12:c11}{space 1}{c |}{space 1}{ralign 9:{res:{sf: -10.2571}}}{space 1}{space 1}{ralign 9:{res:{sf: .1111111}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
 {res}{txt}
-{com}.                          
+{com}.                         
+. ereturn list                    
+
+{txt}scalars:
+               e(n_pl) =  {res}27
+          {txt}e(n_pl_used) =  {res}27
+    {txt}e(pval_joint_post) =  {res}.1851851851851852
+  {txt}e(pval_joint_post_s
+    td)                =  {res}0
+    {txt}e(avg_pre_rmspe_p) =  {res}.5185185185185185
+
+{txt}macros:
+           e(trperiod) : "{res}2003{txt}"
+             e(trunit) : "{res}2{txt}"
+         e(treat_type) : "{res}single unit{txt}"
+             e(depvar) : "{res}VDEMy{txt}"
+                e(cmd) : "{res}synth_runner{txt}"
+         e(properties) : "{res}b{txt}"
+
+matrices:
+                  e(b) : {res} 1 x 11
+          {txt}e(pvals_std) : {res} 1 x 11
+              {txt}e(pvals) : {res} 1 x 11
+      {txt}e(treat_control) : {res} 24 x 2
+{txt}
+{com}.                         
 . rename  VDEMy_synth     ARG_SCA
 {res}{txt}
 {com}. rename  effect          ARG_effect
@@ -297,9 +322,10 @@ format
 {txt}(648 observations deleted)
 
 {com}. 
-. generate t = year - $treat_graph
+. generate t = year - $treat_y
 {txt}
-{com}. drop if t > 10 | t < -10
+{com}. 
+. drop if t > 10 | t < -10
 {txt}(3 observations deleted)
 
 {com}. 
@@ -324,10 +350,6 @@ saved
 . *| Bolivia
 . *|------------------------------------------------------------------------------
 . 
-. ** SUGGESTIONS: 
-. *| -- Start pre-treatment period in 1992
-. *| -- Include lags VDEMy(1992) VDEMy(1995)
-. 
 . use data.dta, clear
 {txt}
 {com}. 
@@ -347,8 +369,8 @@ saved
 . drop if year < 1992
 {txt}(336 observations deleted)
 
-{com}. drop if year > 2015
-{txt}(84 observations deleted)
+{com}. drop if year > 2016
+{txt}(56 observations deleted)
 
 {com}. 
 . global convergence       = "nested allopt technique(nr)"
@@ -487,8 +509,7 @@ Post-treatment results: Effects, p-values, standardized p-values
 {space 0}{space 0}{ralign 12:c8}{space 1}{c |}{space 1}{ralign 9:{res:{sf: -13.0103}}}{space 1}{space 1}{ralign 9:{res:{sf: .1111111}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
 {space 0}{space 0}{ralign 12:c9}{space 1}{c |}{space 1}{ralign 9:{res:{sf: -12.1422}}}{space 1}{space 1}{ralign 9:{res:{sf: .1481481}}}{space 1}{space 1}{ralign 9:{res:{sf:  .037037}}}{space 1}
 {space 0}{space 0}{ralign 12:c10}{space 1}{c |}{space 1}{ralign 9:{res:{sf: -13.9798}}}{space 1}{space 1}{ralign 9:{res:{sf: .1481481}}}{space 1}{space 1}{ralign 9:{res:{sf:  .037037}}}{space 1}
-{res}{txt}
-{com}. effect_graphs
+{space 0}{space 0}{ralign 12:c11}{space 1}{c |}{space 1}{ralign 9:{res:{sf: -14.3332}}}{space 1}{space 1}{ralign 9:{res:{sf: .1481481}}}{space 1}{space 1}{ralign 9:{res:{sf:  .037037}}}{space 1}
 {res}{txt}
 {com}. ereturn list
 
@@ -509,10 +530,10 @@ Post-treatment results: Effects, p-values, standardized p-values
          e(properties) : "{res}b{txt}"
 
 matrices:
-                  e(b) : {res} 1 x 10
-          {txt}e(pvals_std) : {res} 1 x 10
-              {txt}e(pvals) : {res} 1 x 10
-      {txt}e(treat_control) : {res} 24 x 2
+                  e(b) : {res} 1 x 11
+          {txt}e(pvals_std) : {res} 1 x 11
+              {txt}e(pvals) : {res} 1 x 11
+      {txt}e(treat_control) : {res} 25 x 2
 {txt}
 {com}. 
 . rename  VDEMy_synth     BOL_SCA
@@ -584,13 +605,14 @@ format
 {com}. 
 . 
 . keep if country_code == "BOL"
-{txt}(648 observations deleted)
+{txt}(675 observations deleted)
 
 {com}. 
-. generate t = year - $treat_graph
+. generate t = year - $treat_y
 {txt}
-{com}. drop if t > 10 | t < -10
-{txt}(3 observations deleted)
+{com}. 
+. drop if t > 10 | t < -10
+{txt}(4 observations deleted)
 
 {com}. 
 . rename year             BOL_year
@@ -794,8 +816,6 @@ Post-treatment results: Effects, p-values, standardized p-values
 {space 0}{space 0}{ralign 12:c10}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  -23.904}}}{space 1}{space 1}{ralign 9:{res:{sf: .0740741}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
 {space 0}{space 0}{ralign 12:c11}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  -16.752}}}{space 1}{space 1}{ralign 9:{res:{sf: .1111111}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
 {res}{txt}
-{com}. effect_graphs
-{res}{txt}
 {com}. ereturn list
 
 {txt}scalars:
@@ -892,9 +912,10 @@ format
 {txt}(675 observations deleted)
 
 {com}. 
-. generate t = year - $treat_graph
+. generate t = year - $treat_y
 {txt}
-{com}. drop if t > 10 | t < -10
+{com}. 
+. drop if t > 10 | t < -10
 {txt}(4 observations deleted)
 
 {com}. 
@@ -968,7 +989,7 @@ saved
 {com}. 
 . synth VDEMy $predictors $pre_treatment, trunit(21) trperiod($treat_y)    ///
 >           unitnames(country) resultsperiod($x_axis)                                                      ///
->           fig //keep(resout_NIC) replace 
+>           keep(resout_NIC) replace 
 {txt}{hline}
 {res}Synthetic Control Method for Comparative Case Studies
 {txt}{hline}
@@ -1068,7 +1089,7 @@ Data Setup successful
 {space 0}{space 0}{ralign 30:VDEMy(2006)}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     33.1}}}{space 1}{space 1}{ralign 9:{res:{sf:  35.2556}}}{space 1}
 {space 0}{hline 31}{c  BT}{hline 11}{hline 11}
 {hline}
-{res}{txt}
+
 {com}.           
 .           
 . synth_runner VDEMy $predictors $pre_treatment,                                                           ///
@@ -1104,8 +1125,31 @@ Post-treatment results: Effects, p-values, standardized p-values
 {space 0}{space 0}{ralign 12:c10}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  -28.088}}}{space 1}{space 1}{ralign 9:{res:{sf:  .037037}}}{space 1}{space 1}{ralign 9:{res:{sf: .1111111}}}{space 1}
 {space 0}{space 0}{ralign 12:c11}{space 1}{c |}{space 1}{ralign 9:{res:{sf: -29.5857}}}{space 1}{space 1}{ralign 9:{res:{sf:  .037037}}}{space 1}{space 1}{ralign 9:{res:{sf: .1111111}}}{space 1}
 {res}{txt}
+{com}. ereturn list
+
+{txt}scalars:
+               e(n_pl) =  {res}27
+          {txt}e(n_pl_used) =  {res}27
+    {txt}e(pval_joint_post) =  {res}0
+  {txt}e(pval_joint_post_s
+    td)                =  {res}0
+    {txt}e(avg_pre_rmspe_p) =  {res}.2222222222222222
+
+{txt}macros:
+           e(trperiod) : "{res}2007{txt}"
+             e(trunit) : "{res}21{txt}"
+         e(treat_type) : "{res}single unit{txt}"
+             e(depvar) : "{res}VDEMy{txt}"
+                e(cmd) : "{res}synth_runner{txt}"
+         e(properties) : "{res}b{txt}"
+
+matrices:
+                  e(b) : {res} 1 x 11
+          {txt}e(pvals_std) : {res} 1 x 11
+              {txt}e(pvals) : {res} 1 x 11
+      {txt}e(treat_control) : {res} 21 x 2
+{txt}
 {com}. 
-. 
 . rename  VDEMy_synth     NIC_SCA
 {res}{txt}
 {com}. rename  effect          NIC_effect
@@ -1135,7 +1179,7 @@ Post-treatment results: Effects, p-values, standardized p-values
 {com}. 
 . twoway line VDEMy          year if id==21, lpattern(solid)                                               ///
 >         || line NIC_SCA    year if id==21, lpattern(dash)  xline($treat_graph)           ///
->            xlabel(1995(5)2015)                                                                                                   ///
+>            xlabel(1995(5)2020)                                                                                                   ///
 >            ytitle($ytitle1)                                                                                                      ///
 >            legend(label(1 $label1) label(2 $label2) position(6) rows(1)) nodraw
 {txt}
@@ -1145,7 +1189,7 @@ Post-treatment results: Effects, p-values, standardized p-values
 {com}.            
 . twoway bar      NIC_effect year if id==21, color(gray%50) xline($treat_graph)            ///
 >            yline(0, lpattern(solid))                                                                                     ///
->            xlabel(1995(5)2015)                                                                                                   ///
+>            xlabel(1995(5)2020)                                                                                                   ///
 >            ytitle($ytitle2) nodraw
 {txt}
 {com}.            graph save "Figures/JP/NIC_effect", replace
@@ -1171,10 +1215,11 @@ format
 {txt}(567 observations deleted)
 
 {com}. 
-. generate t = year - $treat_graph
+. generate t = year - $treat_y
 {txt}
-{com}. drop if t > 10 | t < -10
-{txt}(1 observation deleted)
+{com}. 
+. drop if t > 10 | t < -10
+{txt}(0 observations deleted)
 
 {com}. 
 . rename year             NIC_year
@@ -1190,11 +1235,8 @@ format
 {res}
 {txt}{col 5}Result{col 33}Number of obs
 {col 5}{hline 41}
-{col 5}Not matched{col 30}{res}               1
-{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
-{col 9}from using{col 30}{res}               1{txt}  (_merge==2)
-
-{col 5}Matched{col 30}{res}              20{txt}  (_merge==3)
+{col 5}Not matched{col 30}{res}               0
+{txt}{col 5}Matched{col 30}{res}              21{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. drop _merge
@@ -1231,8 +1273,8 @@ saved
 . drop if year < 1980
 {txt}(0 observations deleted)
 
-{com}. drop if year > 2008
-{txt}(280 observations deleted)
+{com}. drop if year > 2009
+{txt}(252 observations deleted)
 
 {com}. 
 . 
@@ -1250,7 +1292,7 @@ saved
 . 
 . synth VDEMy $predictors $pre_treatment, trunit(32) trperiod($treat_y)    ///
 >           unitnames(country) resultsperiod($x_axis)                                                      ///
->           fig //keep(resout_VEN) replace
+>           keep(resout_VEN) replace
 {txt}{hline}
 {res}Synthetic Control Method for Comparative Case Studies
 {txt}{hline}
@@ -1417,14 +1459,13 @@ Data Setup successful
 {space 0}{space 0}{ralign 30:VDEMy(1998)}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     58.7}}}{space 1}{space 1}{ralign 9:{res:{sf:  59.8313}}}{space 1}
 {space 0}{hline 31}{c  BT}{hline 11}{hline 11}
 {hline}
-{res}{txt}
+
 {com}. 
 .     
 . synth_runner VDEMy $predictors $pre_treatment,                                                           ///
 >                          trunit(32) trperiod($treat_y)                                                                   ///
 >                          gen_vars                                                                                                ///
->                          synthsettings(unitnames(country))                                                               ///
-> 
+>                          synthsettings(unitnames(country))                                                               
 {res}Estimating the treatment effects
 Estimating the possible placebo effects (one set for each of the 1 treatment periods)
 |{col 27}| Total: 27
@@ -1451,8 +1492,35 @@ Post-treatment results: Effects, p-values, standardized p-values
 {space 0}{space 0}{ralign 12:c8}{space 1}{c |}{space 1}{ralign 9:{res:{sf: -50.7954}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
 {space 0}{space 0}{ralign 12:c9}{space 1}{c |}{space 1}{ralign 9:{res:{sf: -51.3276}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
 {space 0}{space 0}{ralign 12:c10}{space 1}{c |}{space 1}{ralign 9:{res:{sf: -51.8648}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
+{space 0}{space 0}{ralign 12:c11}{space 1}{c |}{space 1}{ralign 9:{res:{sf: -52.0219}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}
 {res}{txt}
-{com}. rename  VDEMy_synth     VEN_SCA
+{com}.                          
+. ereturn list 
+
+{txt}scalars:
+               e(n_pl) =  {res}27
+          {txt}e(n_pl_used) =  {res}27
+    {txt}e(pval_joint_post) =  {res}0
+  {txt}e(pval_joint_post_s
+    td)                =  {res}0
+    {txt}e(avg_pre_rmspe_p) =  {res}.4444444444444444
+
+{txt}macros:
+           e(trperiod) : "{res}1999{txt}"
+             e(trunit) : "{res}32{txt}"
+         e(treat_type) : "{res}single unit{txt}"
+             e(depvar) : "{res}VDEMy{txt}"
+                e(cmd) : "{res}synth_runner{txt}"
+         e(properties) : "{res}b{txt}"
+
+matrices:
+                  e(b) : {res} 1 x 11
+          {txt}e(pvals_std) : {res} 1 x 11
+              {txt}e(pvals) : {res} 1 x 11
+      {txt}e(treat_control) : {res} 30 x 2
+{txt}
+{com}. 
+. rename  VDEMy_synth     VEN_SCA
 {res}{txt}
 {com}. rename  effect          VEN_effect
 {res}{txt}
@@ -1516,13 +1584,14 @@ format
 {com}.                          
 . 
 . keep if country_code == "VEN"
-{txt}(783 observations deleted)
+{txt}(810 observations deleted)
 
 {com}. 
-. generate t = year - $treat_graph
+. generate t = year - $treat_y
 {txt}
-{com}. drop if t > 10 | t < -10
-{txt}(8 observations deleted)
+{com}. 
+. drop if t > 10 | t < -10
+{txt}(9 observations deleted)
 
 {com}. 
 . rename year             VEN_year
@@ -1565,14 +1634,11 @@ saved
 
 {com}. 
 . gen VDEMy  = (ARG_VDEMy  + BOL_VDEMy  + ECU_VDEMy  + NIC_VDEMy  + VEN_VDEMy) /5
-{txt}(1 missing value generated)
-
+{txt}
 {com}. gen synth  = (ARG_SCA    + BOL_SCA    + ECU_SCA    + NIC_SCA    + VEN_SCA)   /5
-{txt}(1 missing value generated)
-
+{txt}
 {com}. gen EFFECT = VDEMy - synth
-{txt}(1 missing value generated)
-
+{txt}
 {com}. 
 . 
 . global ytitle = "Average V-DEM: Liberal Democracy Index (0-100)"
@@ -1616,7 +1682,7 @@ format
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/Users/jpmvbastos/Documents/GitHub/populism-sca/Results.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}25 Nov 2023, 19:45:34
+ {txt}closed on:  {res}26 Nov 2023, 13:41:29
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

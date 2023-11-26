@@ -13,8 +13,6 @@
 *|==============================================================================
 
 
-*| Please see the main file for required packages as well data cleaning.
-
 *| Packages
 ssc install schemepack	// Plot schemes
 
@@ -139,7 +137,9 @@ synth_runner VDEMy $predictors $pre_treatment,								 ///
 			 gen_vars 						 								 ///
 			 synthsettings(unitnames(country))								 ///
 			
-			 
+			
+ereturn list			
+			
 rename 	VDEMy_synth	ARG_SCA
 rename 	effect		ARG_effect
 drop	pre_rmspe
@@ -179,7 +179,8 @@ graph drop _all
 
 keep if country_code == "ARG"
 
-generate t = year - $treat_graph
+generate t = year - $treat_y
+
 drop if t > 10 | t < -10
 
 rename year		ARG_year
@@ -193,10 +194,6 @@ save data_avg_jp, replace
 *| Bolivia
 *|------------------------------------------------------------------------------
 
-** SUGGESTIONS: 
-*| -- Start pre-treatment period in 1992
-*| -- Include lags VDEMy(1992) VDEMy(1995)
-
 use data.dta, clear
 
 drop if country_code=="ARG"	
@@ -205,7 +202,7 @@ drop if country_code=="NIC"
 drop if country_code=="VEN"
 
 drop if year < 1992
-drop if year > 2015
+drop if year > 2016
 
 global convergence	 = "nested allopt technique(nr)"
 global predictors    = "VDEM6 polity2 VDEM1 ICRG"
@@ -224,7 +221,6 @@ synth_runner VDEMy $predictors $pre_treatment,								 ///
 			 gen_vars 						 								 ///
 			 synthsettings(unitnames(country))								 ///
 
-effect_graphs
 ereturn list
 
 rename 	VDEMy_synth	BOL_SCA
@@ -267,7 +263,8 @@ graph drop _all
 
 keep if country_code == "BOL"
 
-generate t = year - $treat_graph
+generate t = year - $treat_y
+
 drop if t > 10 | t < -10
 
 rename year		BOL_year
@@ -309,7 +306,6 @@ synth_runner VDEMy $predictors $pre_treatment,								 ///
 			 gen_vars 						 								 ///
 			 synthsettings(unitnames(country))								 ///
 
-effect_graphs
 ereturn list
 
 rename 	VDEMy_synth	ECU_SCA
@@ -351,7 +347,8 @@ graph drop _all
 
 keep if country_code == "ECU"
 
-generate t = year - $treat_graph
+generate t = year - $treat_y
+
 drop if t > 10 | t < -10
 
 rename year		ECU_year
@@ -388,7 +385,7 @@ global x_axis		 = "1997(1)2017"
 
 synth VDEMy $predictors $pre_treatment, trunit(21) trperiod($treat_y)	 ///
 	  unitnames(country) resultsperiod($x_axis)							 ///
-	  fig //keep(resout_NIC) replace 
+	  keep(resout_NIC) replace 
 	  
 	  
 synth_runner VDEMy $predictors $pre_treatment,								 ///
@@ -396,7 +393,7 @@ synth_runner VDEMy $predictors $pre_treatment,								 ///
 			 gen_vars 						 								 ///
 			 synthsettings(unitnames(country))								 ///
 			 
-
+ereturn list
 
 rename 	VDEMy_synth	NIC_SCA
 rename 	effect		NIC_effect
@@ -415,14 +412,14 @@ global treat_graph  = $treat_y -1
 
 twoway line VDEMy	   year if id==21, lpattern(solid) 						 ///
 	|| line NIC_SCA    year if id==21, lpattern(dash)  xline($treat_graph)		 ///
-	   xlabel(1995(5)2015) 													 ///
+	   xlabel(1995(5)2020) 													 ///
 	   ytitle($ytitle1) 				 									 ///
 	   legend(label(1 $label1) label(2 $label2) position(6) rows(1)) nodraw
 	    graph save "Figures/JP/NIC_synth", replace
 	   
 twoway bar 	NIC_effect year if id==21, color(gray%50) xline($treat_graph) 		 ///
 	   yline(0, lpattern(solid))											 ///
-	   xlabel(1995(5)2015)													 ///
+	   xlabel(1995(5)2020)													 ///
 	   ytitle($ytitle2) nodraw
 	   graph save "Figures/JP/NIC_effect", replace
  
@@ -433,7 +430,8 @@ graph drop _all
 
 keep if country_code == "NIC"
 
-generate t = year - $treat_graph
+generate t = year - $treat_y
+
 drop if t > 10 | t < -10
 
 rename year		NIC_year
@@ -458,7 +456,7 @@ drop if country_code=="ECU"
 drop if country_code=="NIC"
 
 drop if year < 1980
-drop if year > 2008
+drop if year > 2009
 
 
 global convergence	 = "nested allopt technique(nr)"
@@ -470,13 +468,15 @@ global x_axis		 = "1980(1)2008"
 
 synth VDEMy $predictors $pre_treatment, trunit(32) trperiod($treat_y)	 ///
 	  unitnames(country) resultsperiod($x_axis)							 ///
-	  fig //keep(resout_VEN) replace
+	  keep(resout_VEN) replace
 
     
 synth_runner VDEMy $predictors $pre_treatment,								 ///
 			 trunit(32) trperiod($treat_y)			 						 ///
 			 gen_vars 				 								 ///
-			 synthsettings(unitnames(country))								 ///
+			 synthsettings(unitnames(country))								 
+			 
+ereturn list 
 
 rename 	VDEMy_synth	VEN_SCA
 rename 	effect		VEN_effect
@@ -515,7 +515,8 @@ graph drop _all
 
 keep if country_code == "VEN"
 
-generate t = year - $treat_graph
+generate t = year - $treat_y
+
 drop if t > 10 | t < -10
 
 rename year		VEN_year

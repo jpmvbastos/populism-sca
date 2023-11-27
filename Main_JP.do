@@ -546,14 +546,15 @@ global ytitle = "Average V-DEM: Liberal Democracy Index (0-100)"
 twoway line VDEMy t, lpattern(solid)										 ///
 	|| line synth t, lpattern(dash)  										 ///
 	   xline(0) xlabel(-10(2)10) ylabel(30(5)60) legend(off)				 ///
-	   ytitle($ytitle) 
+	   ytitle($ytitle) xtitle("Years from Treatment")
 	   graph save "Figures/JP/avg_synth", replace
 	   
 global ytitle = "Average synthetic effect"	   
 twoway bar EFFECT t, color(gray%50) xline(0) 								 ///
 	   yline(0, lpattern(solid))											 ///
 	   xlabel(-10(2)10)	ylabel(-30(5)10)									 ///
-	   ytitle($ytitle)
+	   ytitle($ytitle) xtitle("Years from Treatment")
+	   
 	   graph save "Figures/JP/avg_effect", replace
 	   
 

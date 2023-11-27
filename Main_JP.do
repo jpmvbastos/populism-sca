@@ -87,7 +87,7 @@ label variable VDEM5		"V-Dem: Clientelism Index"
 label variable VDEM6		"V-Dem: Presidentialism Index"
 label variable polity2		"Polity V"
 label variable EFW			"Economic Freedom of the World Index"
-label variable WGI1			"WGI: Voive and Accountability"
+label variable WGI1			"WGI: Voice and Accountability"
 label variable WGI2			"WGI: Rule of Law"
 label variable WGI3			"WGI: Control of Corruption"
 label variable ICRG			"ICRG: Corruption"
@@ -460,10 +460,10 @@ drop if year > 2009
 
 
 global convergence	 = "nested allopt technique(nr)"
-global predictors    = "WGI1 VDEM2 VDEM3 polity2 EFW ICRG"
-global pre_treatment = "VDEMy(1988) VDEMy(1991) VDEMy(1994) VDEMy(1998)"
+global predictors    = "VDEM2 polity2 EFW ICRG"
+global pre_treatment = "VDEMy(1985) VDEMy(1988) VDEMy(1992) VDEMy(1994) VDEMy(1998)"
 global treat_y       = "1999"
-global x_axis		 = "1980(1)2008"
+global x_axis		 = "1980(1)2009"
 
 
 synth VDEMy $predictors $pre_treatment, trunit(32) trperiod($treat_y)	 ///

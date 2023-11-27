@@ -317,7 +317,7 @@ twoway line VDEMy	  year, lpattern(solid) lwidth (medthick)	 ///
 	|| line ARG_DL    year, lpattern(shortdash) lwidth(medthin) lcolor(gray%85)	 ///
 	|| line ARG_AL    year, lpattern(shortdash_dot) lwidth(medthin) lcolor(gray%85)	 ///
 	|| line ARG_DD    year, lpattern(longdash) lwidth(medthin) lcolor(gray%85)	 ///
-	|| line ARG_LA    year, lpattern(longdash_dot) lwidth(medthin) lcolor(gray%85)	 ///
+	|| line ARG_LA    year, lpattern(dot) lwidth(medthick) lcolor(gray%)	 ///
 	   xline($treat_graph)	 ///
 	   xlabel(1990(5)2015) 													 ///
 	   ytitle($ytitle1) 				 									 ///
@@ -646,7 +646,7 @@ twoway line VDEMy	  year, lpattern(solid) lwidth (medthick)	 ///
 	|| line BOL_DL    year, lpattern(shortdash) lwidth(medthin) lcolor(gray%85)	 ///
 	|| line BOL_AL    year, lpattern(shortdash_dot) lwidth(medthin) lcolor(gray%85)	 ///
 	|| line BOL_DD    year, lpattern(longdash) lwidth(medthin) lcolor(gray%85)	 ///
-	|| line BOL_LA    year, lpattern(longdash_dot) lwidth(medthin) lcolor(gray%85)	 ///
+	|| line BOL_LA    year, lpattern(dot) lwidth(medthick) lcolor(gray%)	 ///
 	   xline($treat_graph)	 ///
 	   xlabel(1990(5)2015) 													 ///
 	   ytitle($ytitle1) 				 									 ///
@@ -877,6 +877,11 @@ save RC_ECU, replace
 
 use data.dta, clear
 
+drop if country_code=="ARG"	
+drop if country_code=="BOL"
+drop if country_code=="NIC"
+drop if country_code=="VEN"
+
 * Drop developed counties 
 drop if country=="Australia"
 drop if country=="Austria"
@@ -955,7 +960,7 @@ twoway line VDEMy	  year, lpattern(solid) lwidth (medthick)	 ///
 	|| line ECU_DL    year, lpattern(shortdash) lwidth(medthin) lcolor(gray%85)	 ///
 	|| line ECU_AL    year, lpattern(shortdash_dot) lwidth(medthin) lcolor(gray%85)	 ///
 	|| line ECU_DD    year, lpattern(longdash) lwidth(medthin) lcolor(gray%85)	 ///
-	|| line ECU_LA    year, lpattern(longdash_dot) lwidth(medthin) lcolor(gray%85)	 ///
+	|| line ECU_LA    year, lpattern(dot) lwidth(medthick) lcolor(gray%)	 ///
 	   xline($treat_graph)	 ///
 	   xlabel(1990(5)2015) 													 ///
 	   ytitle($ytitle1) 				 									 ///
@@ -1269,7 +1274,7 @@ twoway line VDEMy	  year, lpattern(solid) lwidth (medthick)	 ///
 	|| line NIC_DL    year, lpattern(shortdash) lwidth(medthin) lcolor(gray%85)	 ///
 	|| line NIC_AL    year, lpattern(shortdash_dot) lwidth(medthin) lcolor(gray%85)	 ///
 	|| line NIC_DD    year, lpattern(longdash) lwidth(medthin) lcolor(gray%85)	 ///
-	|| line NIC_LA    year, lpattern(longdash_dot) lwidth(medthin) lcolor(gray%85)	 ///
+	|| line NIC_LA    year, lpattern(dot) lwidth(medthick) lcolor(gray%)	 ///
 	   xline($treat_graph)	 ///
 	   xlabel(1995(5)2020) 													 ///
 	   ytitle($ytitle1) 				 									 ///
@@ -1297,14 +1302,14 @@ drop if year < 1980
 drop if year > 2009
 
 global convergence	 = "nested allopt technique(nr)"
-global predictors    = "WGI1 VDEM2 VDEM3 polity2 EFW ICRG"
-global pre_treatment = "VDEMy(1988) VDEMy(1991) VDEMy(1994) VDEMy(1998)"
+global predictors    = "VDEM2 polity2 EFW ICRG"
+global pre_treatment = "VDEMy(1985) VDEMy(1988) VDEMy(1992) VDEMy(1994) VDEMy(1998)"
 global treat_y       = "1999"
-global x_axis		 = "1980(1)2008"
+global x_axis		 = "1980(1)2009"
 
 
 synth VDEMy $predictors $pre_treatment, trunit(32) trperiod($treat_y)	 ///
-	  unitnames(country) resultsperiod($x_axis)							 ///
+	  unitnames(country) resultsperiod($x_axis)			 fig				
 	  
 
     
@@ -1312,6 +1317,7 @@ synth_runner VDEMy $predictors $pre_treatment,								 ///
 			 trunit(32) trperiod($treat_y)			 						 ///
 			 gen_vars 				 								 ///
 			 synthsettings(unitnames(country))								 ///
+
 
 ereturn list			
 			
@@ -1332,7 +1338,7 @@ save RC_VEN, replace
 
 
 *| Robustness Check 1 - Drop Largest Donor
-*| 	-- Largest Donor == Costa Rica (0.437)
+*| 	-- Largest Donor == Spain
 *| 	-- Same specification as suggestion above
 
 use data.dta, clear
@@ -1342,20 +1348,20 @@ drop if country_code=="BOL"
 drop if country_code=="ECU"
 drop if country_code=="NIC"
 
-drop if country=="Costa Rica"
+drop if country=="Spain"
 
 drop if year < 1980
 drop if year > 2009
 
 global convergence	 = "nested allopt technique(nr)"
-global predictors    = "WGI1 VDEM2 VDEM3 polity2 EFW ICRG"
-global pre_treatment = "VDEMy(1988) VDEMy(1991) VDEMy(1994) VDEMy(1998)"
+global predictors    = "VDEM2 polity2 EFW ICRG"
+global pre_treatment = "VDEMy(1985) VDEMy(1988) VDEMy(1992) VDEMy(1994) VDEMy(1998)"
 global treat_y       = "1999"
-global x_axis		 = "1980(1)2008"
+global x_axis		 = "1980(1)2009"
 
 
 synth VDEMy $predictors $pre_treatment, trunit(32) trperiod($treat_y)	 ///
-	  unitnames(country) resultsperiod($x_axis)							 ///
+	  unitnames(country) resultsperiod($x_axis)	 fig
 
 	  
 synth_runner VDEMy $predictors $pre_treatment,								 ///
@@ -1363,6 +1369,7 @@ synth_runner VDEMy $predictors $pre_treatment,								 ///
 			 gen_vars 				 								 ///
 			 synthsettings(unitnames(country))								 ///
 
+effect_graphs
 ereturn list 
 
 rename 	VDEMy_synth	VEN_DL
@@ -1394,29 +1401,30 @@ drop if country_code=="ECU"
 drop if country_code=="NIC"
 
 drop if year < 1980
-drop if year > 2008
+drop if year > 2009
 
 
 global convergence	 = "nested allopt technique(nr)"
 global treat_y       = "1999"
-global x_axis		 = "1980(1)2008"
+global x_axis		 = "1980(1)2009"
 
 
 synth VDEMy VDEMy(1980) VDEMy(1981) VDEMy(1982) VDEMy(1983) VDEMy(1984)			///
 	  VDEMy(1985) VDEMy(1986) VDEMy(1987) VDEMy(1988) VDEMy(1989) VDEMy(1990)	///
 	  VDEMy(1991) VDEMy(1992) VDEMy(1993) VDEMy(1994) VDEMy(1995) VDEMy(1996)	///
-	  VDEMy(1997) VDEMy(1999), trunit(32) trperiod($treat_y)	 				///
+	  VDEMy(1997) VDEMy(1998), trunit(32) trperiod($treat_y)	 				///
 	  unitnames(country) resultsperiod($x_axis)							 		///
 
     
-synth_runner VDEMy VDEMy VDEMy(1980) VDEMy(1981) VDEMy(1982) VDEMy(1983) 	///
+synth_runner VDEMy VDEMy(1980) VDEMy(1981) VDEMy(1982) VDEMy(1983) 	///
 			 VDEMy(1984) VDEMy(1985) VDEMy(1986) VDEMy(1987) VDEMy(1988) 	///	
 			 VDEMy(1989) VDEMy(1990) VDEMy(1991) VDEMy(1992) VDEMy(1993) 	///
-			 VDEMy(1994) VDEMy(1995) VDEMy(1996) VDEMy(1997) VDEMy(1999), 	///
+			 VDEMy(1994) VDEMy(1995) VDEMy(1996) VDEMy(1997) VDEMy(1998), 	///
 			 trunit(32) trperiod($treat_y)			 					    ///
 			 gen_vars 				 								 		///
 			 synthsettings(unitnames(country))							   ///
 
+effect_graphs
 
 ereturn list
 
@@ -1472,10 +1480,10 @@ drop if country=="United Kingdom"
 
 
 global convergence	 = "nested allopt technique(nr)"
-global predictors    = "WGI1 VDEM2 polity2 EFW"
-global pre_treatment = "VDEMy(1988) VDEMy(1991) VDEMy(1994) VDEMy(1998)"
+global predictors    = "VDEM2 polity2 EFW"
+global pre_treatment = "VDEMy(1985) VDEMy(1988) VDEMy(1992) VDEMy(1994) VDEMy(1998)"
 global treat_y       = "1999"
-global x_axis		 = "1980(1)2008"
+global x_axis		 = "1980(1)2009"
 
 
 synth VDEMy  $pre_treatment $predictors, trunit(32) trperiod($treat_y)	 ///
@@ -1488,6 +1496,7 @@ synth_runner VDEMy  $pre_treatment $predictors,								 ///
 			 gen_vars 				 								 		///
 			 synthsettings(unitnames(country))								 ///
 
+effect_graphs
 ereturn list
 
 rename 	VDEMy_synth	VEN_DD
@@ -1509,7 +1518,6 @@ save RC_VEN, replace
 
 
 *| Robustness Check 4 - Only Latin American Donors
-*| -- Drop VDEM 3 and ICRG as predictors 
 
 use data.dta, clear
 
@@ -1545,14 +1553,14 @@ drop if country=="Thailand"
 drop if country=="Turkey"
 
 global convergence	 = "nested allopt technique(nr)"
-global predictors    = "WGI1 VDEM2 polity2 EFW"
-global pre_treatment = "VDEMy(1988) VDEMy(1991) VDEMy(1994) VDEMy(1998)"
+global predictors    = "VDEM2 polity2 EFW"
+global pre_treatment = "VDEMy(1985) VDEMy(1988) VDEMy(1992) VDEMy(1994) VDEMy(1998)"
 global treat_y       = "1999"
 global x_axis		 = "1980(1)2008"
 
 
 synth VDEMy $predictors $pre_treatment, trunit(32) trperiod($treat_y)	 ///
-	  unitnames(country) resultsperiod($x_axis)							 ///
+	  unitnames(country) resultsperiod($x_axis)		 fig				///
 
 
 
@@ -1561,7 +1569,7 @@ synth_runner VDEMy $predictors $pre_treatment,								 ///
 			 gen_vars 						 								 ///
 			 synthsettings(unitnames(country))								 ///
 
-
+effect_graphs
 ereturn list
 
 rename 	VDEMy_synth	VEN_LA
@@ -1599,7 +1607,7 @@ twoway line VDEMy	  year, lpattern(solid) lwidth (medthick)	 ///
 	|| line VEN_DL    year, lpattern(shortdash) lwidth(medthin) lcolor(gray%85)	 ///
 	|| line VEN_AL    year, lpattern(shortdash_dot) lwidth(medthin) lcolor(gray%85)	 ///
 	|| line VEN_DD    year, lpattern(longdash) lwidth(medthin) lcolor(gray%85)	 ///
-	|| line VEN_LA    year, lpattern(longdash_dot) lwidth(medthin) lcolor(gray%85)	 ///
+	|| line VEN_LA    year, lpattern(dot) lwidth(medthick) lcolor(gray%)	 ///
 	   xline($treat_graph)	 ///
 	   xlabel(1980(5)2010) 													 ///
 	   ytitle($ytitle1) 				 									 ///
@@ -1611,6 +1619,7 @@ twoway line VDEMy	  year, lpattern(solid) lwidth (medthick)	 ///
 graph export  "Figures/JP/Fig_RC_VEN.png", replace
 graph drop _all
 
+log close
 
 *|==============================================================================
 *| REFERENCES

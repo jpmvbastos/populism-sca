@@ -64,7 +64,9 @@ synth_runner VDEMy $predictors $pre_treatment,								 ///
 			 gen_vars 						 								 ///
 			 synthsettings(unitnames(country))								 ///
 			
-ereturn list			
+ereturn list
+
+save ARG_AVG, replace			
 			
 rename 	VDEMy_synth	ARG_BL
 drop 	effect
@@ -363,7 +365,7 @@ synth_runner VDEMy $predictors $pre_treatment,								 ///
 
 ereturn list
 
-ereturn list			
+save BOL_AVG, replace			
 			
 rename 	VDEMy_synth	BOL_BL
 drop 	effect
@@ -688,7 +690,9 @@ synth_runner VDEMy $predictors $pre_treatment,								 ///
 			 gen_vars 						 								 ///
 			 synthsettings(unitnames(country))								 ///
 
-ereturn list			
+ereturn list
+
+save ECU_AVG, replace			
 			
 rename 	VDEMy_synth	ECU_BL
 drop 	effect
@@ -1002,7 +1006,9 @@ synth_runner VDEMy $predictors $pre_treatment,								 ///
 			 gen_vars 						 								 ///
 			 synthsettings(unitnames(country))								 ///
 			 
-ereturn list			
+ereturn list	
+
+save NIC_AVG, replace		
 			
 rename 	VDEMy_synth	NIC_BL
 drop 	effect
@@ -1319,7 +1325,9 @@ synth_runner VDEMy $predictors $pre_treatment,								 ///
 			 synthsettings(unitnames(country))								 ///
 
 
-ereturn list			
+ereturn list
+
+save VEN_AVG, replace			
 			
 rename 	VDEMy_synth	VEN_BL
 drop 	effect

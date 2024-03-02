@@ -14,7 +14,7 @@
 
 
 *| Packages
-ssc install schemepack	// Plot schemes
+ssc install schemepack	
 
 *| Directory
 cd "/Users/jpmvbastos/Documents/GitHub/populism-sca/"
@@ -529,6 +529,8 @@ merge 1:1 t using data_avg_jp
 drop _merge
 save data_avg_jp, replace
 
+/usr/local/texlive/2023basic/bin/universal-darwin/afm2tfm
+
 
 *|==============================================================================
 *| AVERAGE PLOTS
@@ -545,19 +547,18 @@ gen EFFECT = VDEMy - synth
 global ytitle = "Average V-DEM: Liberal Democracy Index (0-100)"
 twoway line VDEMy t, lpattern(solid)										 ///
 	|| line synth t, lpattern(dash)  										 ///
-	   xline(0) xlabel(-10(2)10) ylabel(30(5)60) legend(off)				 ///
-	   ytitle($ytitle) xtitle("Years from Treatment")
+	   xline(-1) xlabel(-10(2)10) ylabel(30(5)60) legend(off)				 ///
+	   ytitle($ytitle) xtitle("Years since Treatment")
 	   graph save "Figures/JP/avg_synth", replace
 	   
 global ytitle = "Average synthetic effect"	   
-twoway bar EFFECT t, color(gray%50) xline(0) 								 ///
+twoway bar EFFECT t, color(gray%50) xline(-1) 								 ///
 	   yline(0, lpattern(solid))											 ///
 	   xlabel(-10(2)10)	ylabel(-30(5)10)									 ///
-	   ytitle($ytitle) xtitle("Years from Treatment")
-	   
+	   ytitle($ytitle) xtitle("Years since Treatment")						///
+
 	   graph save "Figures/JP/avg_effect", replace
 	   
-
 graph combine "Figures/JP/avg_synth.gph" "Figures/JP/avg_effect.gph", xcommon rows(2)	ysize(8)	
 graph export Figures/JP/Fig_AVG.png, replace
 graph drop _all

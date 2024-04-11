@@ -1,2 +1,5 @@
 
 *.log
+.DS_Store
+Figures/JP/.DS_Store
+Figures/.DS_Store

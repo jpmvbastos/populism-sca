@@ -102,6 +102,9 @@ save data, replace
 * Optional: 
 log using "Results.smcl", replace
 
+*| Directory
+cd "/Users/jpmvbastos/Documents/GitHub/populism-sca/"
+
 
 *| Argentina
 *|------------------------------------------------------------------------------
@@ -131,6 +134,9 @@ synth VDEMy $predictors $pre_treatment, trunit(2) trperiod($treat_y)		 ///
 	  unitnames(country) resultsperiod($x_axis)								 ///
 	  keep(resout_ARG) replace 
 
+	  mat V = e(V_matrix)
+	  esttab mat(V) using "/Users/jpmvbastos/Documents/GitHub/populism-sca/V-Matrix/V_matrix_ARG.csv", replace mlab(none)
+	  
     
 synth_runner VDEMy $predictors $pre_treatment,								 ///
 			 trunit(2) trperiod($treat_y)			 						 ///
@@ -214,6 +220,9 @@ global x_axis		 = "1992(1)2015"
 synth VDEMy $predictors $pre_treatment, trunit(6) trperiod($treat_y)	 ///
 	  unitnames(country) resultsperiod($x_axis)							 ///
 	  keep(resout_BOL) replace 
+	  
+	  mat V = e(V_matrix)
+	  esttab mat(V) using "/Users/jpmvbastos/Documents/GitHub/populism-sca/V-Matrix/V_matrix_BOL.csv", replace mlab(none)
 
     
 synth_runner VDEMy $predictors $pre_treatment,								 ///
@@ -300,6 +309,8 @@ synth VDEMy $predictors $pre_treatment, trunit(13) trperiod($treat_y)	 ///
 	  unitnames(country) resultsperiod($x_axis)							 ///
 	  keep(resout_ECU) replace 
 
+	  mat V = e(V_matrix)
+	  esttab mat(V) using "/Users/jpmvbastos/Documents/GitHub/populism-sca/V-Matrix/V_matrix_ECU.csv", replace mlab(none)
  
 synth_runner VDEMy $predictors $pre_treatment,								 ///
 			 trunit(13) trperiod($treat_y)			 						 ///
@@ -387,6 +398,8 @@ synth VDEMy $predictors $pre_treatment, trunit(21) trperiod($treat_y)	 ///
 	  unitnames(country) resultsperiod($x_axis)							 ///
 	  keep(resout_NIC) replace 
 	  
+	  mat V = e(V_matrix)
+	  esttab mat(V) using "/Users/jpmvbastos/Documents/GitHub/populism-sca/V-Matrix/V_matrix_NIC.csv", replace mlab(none)
 	  
 synth_runner VDEMy $predictors $pre_treatment,								 ///
 			 trunit(21) trperiod($treat_y)			 						 ///
@@ -469,6 +482,9 @@ global x_axis		 = "1980(1)2009"
 synth VDEMy $predictors $pre_treatment, trunit(32) trperiod($treat_y)	 ///
 	  unitnames(country) resultsperiod($x_axis)							 ///
 	  keep(resout_VEN) replace
+	  
+	  mat V = e(V_matrix)
+	  esttab mat(V) using "/Users/jpmvbastos/Documents/GitHub/populism-sca/V-Matrix/V_matrix_VEN.csv", replace mlab(none)
 
     
 synth_runner VDEMy $predictors $pre_treatment,								 ///
